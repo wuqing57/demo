@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>书籍详情</title>
+    <base th:href="@{/}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div style="text-align: center">
+    <form class="center">
+        <h3 class="form-title">书籍详情</h3>
+    <div class="form-group">
+        <label for="id" class="control-label">id：  </label>
+            <label type="text" class="control-label" th:text="${id}" id="id" ></label>
+    </div>
+    <div class="form-group">
+        <label for="name" class="control-label">name：  </label>
+        <label type="text" class="control-label"  id="name" ></label>
+    </div>
+    <div class="form-group">
+        <label for="imgUrl" class="control-label">图片：  </label>
+        <img style="width: 380px;height: auto" class="control-label"  id="imgUrl" ></img>
+    </div>
+    <div class="form-group">
+        <label for="content" class="control-label">content：</label>
+            <label type="text" class="control-label"  id="content" ></label>
+    </div>
+    <div class="form-group">
+        <label for="type" class="control-label">type：  </label>
+            <label type="text" class="control-label"  id="type" > </label>
+    </div>
+    <div class="form-group">
+        <label for="num" class="control-label">num：  </label>
+            <label type="text" class="control-label"  id="num" ></label>
+    </div>
+    </form>
+    <button id="rent" onclick="rent()">租借</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script>
+
+    jQuery(document).ready(function () {
+            // alert(document.getElementById("id").innerText);
+            $.ajax({
+                type: "POST",
+                url: "findbook",
+                data:{
+                    "id":document.getElementById("id").innerText
+                },
+                success: function (data) {
+                    console.log(data);
+                    $("#id").text(data.id);
+                    $("#name").text(data.name);
+                    $("#imgUrl").attr("src",data.imgUrl);
+
+                    $("#content").text(data.content);
+                    $("#type").text(data.type);
+                    $("#num").text(data.num);
+
+
+                }
+            })
+
+    });
+    function rent() {
+        $.ajax({
+            type: "POST",
+            url: "bookinfo",
+            data:{
+                "name":document.getElementById("name").innerText
+            },
+            success: function (data) {
+                alert(data);
+                if(data == "您已租借该书籍"){
+                    return false;
+                }
+                if(data == "租借成功"){
+                    window.location.href="tobookrent";
+                }
+            }
+        });
+
+    }
+    function update() {
+        window.location.href="/bookupdate?id="+document.getElementById("id").innerText;
+
+
+    }
+
+</script>
+
+</body>
+</html>

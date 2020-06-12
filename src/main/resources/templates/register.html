@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<form style="margin-left:500px;margin-top:200px;">
+    <div class="form-group">
+        <label for="name" stype="display:inline;">账号：  </label>
+            <input type="text" class="form-control " name="name" id="name" placeholder="请输入账号" style="display:inline;width:200px;">
+    </div>
+    <div class="form-group">
+        <label for="password" stype="display:inline;">密码：  </label>
+            <input type="password" class="form-control " name="password" id="password" placeholder="请输入密码" style="display:inline;width:200px;">
+    </div>
+    <div class="form-group">
+        <label for="userId" stype="display:inline;">号码：</label>
+            <input type="text" class="form-control " name="userId" id="userId" placeholder="请输入证件号码" style="display:inline;width:200px;">
+    </div>
+    <div class="form-group">
+        <label for="email" stype="display:inline;">邮箱：  </label>
+            <input type="text" class="form-control " name="email" id="email" placeholder="请输入邮箱" style="display:inline;width:200px;">
+    </div>
+                <button type="button" class="btn btn-primary" id="register">注册</button>
+                <button type="button" class="btn btn-primary" id="login" onclick="window.location.href='/toLogin'">登录</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script>
+
+    jQuery(document).ready(function () {
+        $("#login").on("click",function () {
+            window.location.href="toLogin";
+        });
+
+        $("#register").on("click",function () {
+            var name = $("#name").val();
+            var password = $("#password").val();
+            var userId = $("#userId").val();
+            var email = $("#email").val();
+            if(name == null || name == ""){
+                alert("用户名不能为空");
+                return false;
+            }
+            if(password == null || password == ""){
+                alert("密码不能为空");
+                return false;
+            }
+            if(userId == null || userId == ""){
+                alert("userId不能为空");
+                return false;
+            }
+            if(email == null || email == ""){
+                alert("邮箱不能为空");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "register",
+                data:{
+                    "name":$("#name").val(),
+                    "password":$("#password").val(),
+                    "userId":$("#userId").val(),
+                    "email":$("#email").val()
+                },
+                success: function (data) {
+                    alert(data);
+                    if(data == "注册成功"){
+                        window.location.href="toLogin";
+                    }
+                }
+            })
+
+        })
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace绑定一个对应的dao/mapper接口-->
+<mapper namespace="com.example.transport.dao.BookMapper">
+    <select id="getAll" resultType="com.example.transport.bean.Book">
+        select * from book_info
+    </select>
+    <select id="getByName" resultType="com.example.transport.bean.Book">
+        select * from book_info where name like #{name}
+    </select>
+    <select id="getByType" resultType="com.example.transport.bean.Book">
+        select * from book_info where type = #{type}
+    </select>
+    <select id="findBook" resultType="com.example.transport.bean.Book">
+        select * from book_info where id = #{id}
+    </select>
+    <select id="findRent" resultType="com.example.transport.bean.Book">
+        select * from book_info
+        where name in (select name from book_rent where userId = #{userId})
+    </select>
+    <select id="findRentBook" resultType="com.example.transport.bean.BookRent">
+        select * from book_rent
+        where name = #{name} and userId = #{userId}
+    </select>
+    <update id="rent" >
+        update book_info
+        set num = num-1
+        where num>0 and name = #{name}
+    </update>
+    <insert id="addRent">
+        insert into book_rent(name,userId) values(#{name},#{userId})
+    </insert>
+    <insert id="add">
+        insert into book_info(name,content,type,num,imgUrl) values(#{name},#{content},#{type},#{num},#{imgUrl})
+    </insert>
+    <update id="back" >
+        update book_info
+        set num = num+1
+        where name = #{name}
+    </update>
+    <update id="update" >
+        update book_info
+        set name = #{name},content=#{content},type=#{type},num=#{num},imgUrl=#{imgUrl}
+        where id = #{id}
+    </update>
+    <delete id="backRent">
+        delete from book_rent where name = #{name} and userId = #{userId}
+    </delete>
+    <delete id="delete">
+        delete from book_info where id = #{id}
+    </delete>
+<!--    <select id="getUserId2" resultType="com.example.transport.bean.Book">-->
+<!--        select * from user_info where userId = #{userId}-->
+<!--    </select>-->
+<!--    <select id="getName" resultType="com.example.transport.bean.Book">-->
+<!--        select * from user where name = #{name}-->
+<!--    </select>-->
+<!--    <select id="getUser" resultType="com.example.transport.bean.Book">-->
+<!--        select * from user where name = #{name} and password = #{password}-->
+<!--    </select>-->
+
+    <!--    <select id="loginUser" resultType="com.example.transport.bean.User">-->
+    <!--        select * from user where name = #{name} and password = #{password}-->
+    <!--    </select>-->
+
+<!--    <insert id="add">-->
+<!--        insert into user(name,password,userId,email,admin) values(#{name},#{password},#{userId},#{email},#{admin})-->
+<!--    </insert>-->
+
+</mapper>
